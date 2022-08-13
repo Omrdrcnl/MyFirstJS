@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>game || calculator</title>
+    <style>
+        * {
+ margin: 0;
+ padding: 0;
+}
+        .main{
+            width: 100%;
+            height: 100vh;
+            background-color: aqua;
+            text-align: center;
+            justify-content: center;
+            justify-items: center;
+            padding-top: 100px;
+            position: relative;
+        }
+        .conteiner{
+            width: 400px;
+            height: 40%;
+            background-color:rgb(121, 99, 72);
+            justify-content: center;
+            justify-items: center;
+            margin: auto;
+           
+        }
+        
+    #sayı , #sayı2 ,#islem{
+        display: inline-block;
+        padding: 10px;
+    }
+   
+    .sayılar{
+        display: inline-block;
+        justify-items: center;
+        justify-content: center;
+        padding-top: 25px;
+    }
+    #yesil{display: inline-block;
+        background-color: green;
+        margin-top: 25px;
+        font-size: 30px;
+    }
+    #kırmızı {
+        display: inline-block;
+        background-color: red;
+        font-size: 30px;
+        
+    } 
+    .baslık{
+        padding: 20px;
+        border:solid rgb(105, 85, 85);
+        margin: 5px;
+        font-size: 30px;
+        color: blue;
+        background-color: antiquewhite;
+        
+    }
+    #sonuc{
+        width: 90px;
+        padding: 5px;
+    }
+    #answer{
+        padding:5px ;
+        border: none;
+        background-color: black;
+        color: white;
+    }
+    #answer:hover{
+        background-color: gray;
+    }
+    </style>
+ 
+</head>
+<body>
+<div class="main">
+    <div class="conteiner">
+        <div class="baslık"><p class="par">Dört İşlem Oyunu</p> </div>
+        <div class="sayılar">
+            <span id="sayı">0</span>
+            <span id="islem"></span>
+            <span id="sayı2">0</span>
+            <span>=</span>
+        </div>
+        
+        <input type="text" id="sonuc">
+        <input type="button" value="cevapla" id="answer"> <br>
+        <h2 style="padding-top: 10px; color :rgb(203, 247, 7)">Skor</h2>
+        <div id="yesil">0</div>
+        <div id="kırmızı">0</div>
+    </div>
+</div>
+
+<script>
+
+//bildirmlere ulaşma
+var sayı , sayı2 , islem , sonuc , yesil=0 , kırmızı=0 , answer ;
+
+//HTML Nesnelerine ulaşma
+sayı = document. getElementById('sayı');
+sayı2 = document.getElementById('sayı2');
+islem = document.getElementById('islem');
+sonuc = document.getElementById('sonuc');
+answer = document.getElementById('answer')
+yesil= document.getElementById('yesil');
+kırmızı = document.getElementById('kırmızı');
+
+//Rastgele sayı üretme fonksiyonu
+
+function randomNumber(min , max){
+    var number = Math.floor(Math.random()*(max-min)) - min ;
+    return number ;
+}
+
+// oyun başlangıcında veya soru tahmini sonrası yeni soru oluşturma fonksiyonu
+
+function newQuestion(){
+    var islemisareti = ["+","-","*","/"];
+    islem .textContent = islemisareti[randomNumber(0,4)]; //operator secimi
+    sayı .textContent = randomNumber(0, 50);
+    sayı2 .textContent = randomNumber(0, 50);
+        // Bölme işlemi gerçekleştiğinde kalansız işlemi seçme
+        if(islem.textContent=="/"){
+            while(true){
+                sayı2.textContent = randomNumber(0, 50); 
+                if(sayı.textContent % sayı2.textContent==0)
+                { 
+                    break;
+                }
+                
+            }
+        }
+}
+
+// Sayfa yeniden yüklendiğinde yeni soru oluşturma fonksiyonu oluşturma
+
+window.onload = function(){
+    newQuestion();
+}
+
+// Cevapla tuşuna bastığımızda değerlendirme işlemi yapma
+
+answer.onclick = function(){
+    var ans, s1, s2;
+    s1 = Number(sayı.textContent);
+    s2 = Number(sayı2.textContent);
+    switch(islem.textContent){
+        case "+":ans= s1 + s2 ; break;
+        case "-":ans = s1 - s2 ; break;
+        case "*": ans = s1 * s2 ; break;
+        case "/": ans = s1 / s2 ; break ;
+        default: break;
+    }
+    if(sonuc.value ==ans){
+        yesil.textContent=Number(yesil.textContent) + 1 ;
+    }
+    else{
+        kırmızı.textContent=Number(kırmızı.textContent) + 1;
+    }
+    newQuestion();
+}
+
+
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>
